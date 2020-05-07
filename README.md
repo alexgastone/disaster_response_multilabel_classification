@@ -1,14 +1,20 @@
 # Disaster Response Project
 
-### The goal:
-In the face of a global pandemic and a majority of resources (including time) being alotted to fighting it, I started thinking about maximizing efficiency of responses to non-CovID related emergencies. These are emergencies that countries and teams directing responses efforts still have to face and triage through. 
-> Figure Eight provides a dataset of labeled multilingual disaster messages from social, direct, and news sources. These labels correspond to the categories of disaster responses that best fit.
+### Context:
+In the face of a global pandemic and a majority of resources (including time) being rightly alotted to fighting it, I started thinking about working on a project that would be aimed at maximizing efficiency of strained responses to non-CovID related emergencies. There are thousands of messages that teams managing response efforts have to comb through in order to determine and assign the category of response required (ex. food, shelter..). 
 
-### The problem:
-* Faced with a multilabel text classification task with imbalanced classes 
+Figure Eight provides a dataset of labeled multilingual disaster messages from social, direct, and news sources. These labels correspond to the categories of disaster responses.
+
+#### The goal for this project is therefore to build a model that can accurately classify these messages. 
+
+> Multilabel text classification task with imbalanced classes 
 
 ### Model:
-* Best performance with pretrained **BERT-base-uncased model** (vs Bidirectional GRU & fastText-like model) + Classifier (Dense output layer with sigmoid activation to predict probabilities) using the `ktrain` library
+I've trained a few different models of increasing complexity so far (Naive Bayes, deep models such as Bidirectional GRU or a fastText-like model)
+
+* Best performance is by finetuning pretrained **BERT-base-uncased model** + Classifier (Dense output layer with sigmoid activation to predict probabilities) using the `ktrain` library
+	* Training accuracy: 0.9423, validation accuracy: 0.9457
 	* more flexible model is in the works, built using the `transformers` library from **HuggingFace** with tensorflow/keras
-* Training accuracy: 0.9423, validation accuracy: 0.9457
-* Threshold (for classification from probabilities) so far is based on max of geometric mean of the weighted ROC-AUC score and F1 score between true and predicted labels of the validation set
+
+* Threshold moving for imbalanced classes: I've chosen to take the threshold that corresponds to the max geometric mean between the weighted ROC-AUC scores and the F1 scores for the validation set.
+
