@@ -1,31 +1,13 @@
 import json
 import plotly
 import pandas as pd
-
-#from nltk.stem import WordNetLemmatizer
-#from nltk.tokenize import word_tokenize
-
 from flask import Flask
 from flask import render_template, request, jsonify
-from plotly.graph_objs import Bar
-#from sklearn.externals import joblib
 from sqlalchemy import create_engine
-
 import ktrain
 
 
 app = Flask(__name__)
-
-#def tokenize(text):
-   # tokens = word_tokenize(text)
-    #lemmatizer = WordNetLemmatizer()
-
-    #clean_tokens = []
-    #for tok in tokens:
-    #    clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-    #    clean_tokens.append(clean_tok)
-
-    #return clean_tokens
 
 # load data
 engine = create_engine('sqlite:///../data/DisasterResponse_split.db')
@@ -38,45 +20,11 @@ df = pd.read_sql_table('DisasterResponse_split', engine)
 # Instantiate predictor object
 loaded_model = ktrain.load_predictor('../models/bert_finetuned_model')
 
-# index webpage displays cool visuals and receives user input text for model
 @app.route('/')
 @app.route('/index')
 def index():
-    
-    # extract data needed for visuals
-    # TODO: Below is an example - modify to extract data for your own visuals
-    genre_counts = df.groupby('genre').count()['message']
-    genre_names = list(genre_counts.index)
-    
-    # create visuals
-    # TODO: Below is an example - modify to create your own visuals
-    graphs = [
-        {
-            'data': [
-                Bar(
-                    x=genre_names,
-                    y=genre_counts
-                )
-            ],
-
-            'layout': {
-                'title': 'Distribution of Message Genres',
-                'yaxis': {
-                    'title': "Count"
-                },
-                'xaxis': {
-                    'title': "Genre"
-                }
-            }
-        }
-    ]
-    
-    # encode plotly graphs in JSON
-    ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
-    graphJSON = json.dumps(graphs, cls=plotly.utils.PlotlyJSONEncoder)
-    
-    # render web page with plotly graphs
-    return render_template('master.html', ids=ids, graphJSON=graphJSON)
+    # render web page 
+    return render_template('master.html')
 
 
 # web page that handles user query and displays model results
@@ -93,7 +41,7 @@ def go():
     probabilities = loaded_model.predict_proba([query])[0]
     classification_results = {target_category: prob for target_category, prob in zip(target_categories, probabilities)}
 
-    # This will render the go.html Please see that file. 
+    # renders go.html  
     return render_template(
         'go.html',
         query=query,
