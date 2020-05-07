@@ -8,10 +8,10 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="text-center">Result</h1>
+    <h1 class="text-center">Predicted classifications (in green)</h1>
         <ul class="list-group">
             {% for category, classification in classification_result.items() %}
-                {% if classification > 0.2 %}
+                {% if classification > 0.19 %}
                     <li class="list-group-item list-group-item-success text-center">{{category.replace('_', ' ').title()}}</li>
                 {% else %}
                     <li class="list-group-item list-group-item-light text-center">{{category.replace('_', ' ').title()}}</li>

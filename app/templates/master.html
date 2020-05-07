@@ -33,14 +33,14 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="https://appen.com/datasets/combined-disaster-response-data/">Figure Eight's dataset</a></li>
-                <li><a href="https://github.com/alexgastone">Repository</a></li>
+                <li><a href="https://github.com/alexgastone/disaster_response_multilabel_classification">Repository</a></li>
             </ul>
         </div>
     </div>
 </nav>
 
 
-<div class="jumbotron">
+<div class="jumbotron jumbotron-fluid">
     <div class="container">
         <h1 class="text-center">Disaster Response Project</h1>
         <p class="text-center">Analyzing multilingual message data for disaster response</p>
@@ -62,25 +62,20 @@
     </div>
 </div>
 
+
 <div class="container">
     {% block content %}
         <div class="page-header">
-            <h1 class="text-center">Overview of Training Dataset</h1>
+            <h1 class="text-center">Examples of queries</h1>
+        </div >
+        <div class="container">
+        <p class="text-center text-muted"><i>We are more than 50 people on the street. Please help us find tent, food</i></p>
+        <p class="text-center text-muted"><i>UN reports Leogane 80-90 destroyed. Only Hospital St. Croix functioning. Needs supplies desperately.</i></p>
+        <p class="text-center text-muted"><i>SOS, please provide police officers on the streets as they are very insecure</i></p>
         </div>
+        
     {% endblock %}
-
-    {% for id in ids %}
-        <div id="{{id}}"></div>
-    {% endfor %}
 </div>
-
-<script type="text/javascript">
-    const graphs = {{graphJSON | safe}};
-    const ids = {{ids | safe}};
-    for(let i in graphs) {
-        Plotly.plot(ids[i], graphs[i].data, graphs[i].layout);
-    }
-</script>
 
 </body>
 </html>
