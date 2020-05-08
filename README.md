@@ -18,3 +18,8 @@ I've trained a few different models of increasing complexity so far (Naive Bayes
 
 * Threshold moving for imbalanced classes: I've chosen to take the threshold that corresponds to the max geometric mean between the weighted ROC-AUC scores and the F1 scores for the validation set.
 
+### Deployment:
+Since the goal of this project is to use the capabilities of the model for real time inference of messages, I built a web app (using Flask) for users to enter queries and quickly extract the query's predicted classification labels.
+
+To run the app locally: `$python run.py`. Current configuration: host='0.0.0.0', port=4444.
+
