@@ -1,4 +1,5 @@
 import sys
+import argparse
 import pandas as pd
 from sqlalchemy import create_engine
 import os
@@ -11,9 +12,9 @@ from tensorflow.keras.callbacks import Callback
 from sklearn.metrics import roc_auc_score
 
 
-def load_data(database_filepath):
+def load_data(database_filepath, table_name):
     engine = create_engine('sqlite:///' + str(database_filepath))
-    table_name = str(database_filepath).split('.')[0]
+    #table_name = str(database_filepath).split('.')[0]
     df = pd.read_sql_table(table_name, engine)
 
     label_cols = df.columns.tolist()[5:]
@@ -22,7 +23,7 @@ def load_data(database_filepath):
     df_train = df[df['split']=='train']
     df_val = df[df['split']=='validation']
 
-    return df_train, df_val, label_cols, category_labels
+    return df_train, df_val, label_cols
 
 def preprocess_data(train, val, label_cols, args):
     """
@@ -110,39 +111,41 @@ def save_model(learner, preproc, model_filepath):
 
 
 def main():
-    if len(sys.argv) == 3:
-        database_filepath, model_filepath = sys.argv[1:]
-        print('Loading data...\n    Database: {}'.format(database_filepath))
-        df_train, df_val, label_cols, category_labels = load_data(database_filepath)
+    parser = argparse.ArgumentParser(description='Train our classifier with pretrained BERT')
+    parser.add_argument('--database_filepath', type=str, required=True, default='../data/DisasterResponse_split.db', help='Please provide path to the Disaster Response database')
+    parser.add_argument('--table_name', type=str, required=True, default='DisasterResponse_split', help='Please provide the name of the table in the Disaster Response database')
+    parser.add_argument('--model_filepath', type=str, required=True, default='bert_finetuned_model', help='Please provide path to save trained model')
 
-        args = {
-            'NUM_WORDS' : 50000,
-            'MAX_LEN' : 128,
-            'NGRAM' : 1,
-            'BATCH_SIZE' : 32,
-            'NUM_EPOCHS' : 2,
-            'LEARN_RATE' : 1e-5
-        }
+    args = parser.parse_args()
+    database_filepath = args.database_filepath
+    table_name = args.table_name
+    model_filepath = args.model_filepath
 
-        print('BERT tokenization and preprocessing of messages...')
-        x_train, y_train, x_test, y_test, preproc = preprocess_data(df_train, df_val, label_cols, args)
+    print('Loading data...\n    Database: {}\n    Table name: {}'.format(database_filepath, table_name))
+    df_train, df_val, label_cols = load_data(database_filepath, table_name)
 
-        print('Building BERT model...')
-        _, learner = build_model(x_train, y_train, x_test, y_test, preproc)
+    args = {
+        'NUM_WORDS' : 50000,
+        'MAX_LEN' : 128,
+        'NGRAM' : 1,
+        'BATCH_SIZE' : 32,
+        'NUM_EPOCHS' : 2,
+        'LEARN_RATE' : 1e-5
+    }
 
-        print('Training the classifier...')
-        train(x_train, y_train, x_test, y_test, learner, args, with_callback=False)
+    print('BERT tokenization and preprocessing of messages...')
+    x_train, y_train, x_test, y_test, preproc = preprocess_data(df_train, df_val, label_cols, args)
 
-        print('Saving model...\n    Model: {}'.format(model_filepath))
-        save_model(learner, preproc, model_filepath)
+    print('Building BERT model...')
+    _, learner = build_model(x_train, y_train, x_test, y_test, preproc)
 
-        print('Trained model saved!')
+    print('Training the classifier...')
+    train(x_train, y_train, x_test, y_test, learner, args, with_callback=False)
 
-    else:
-        print('Please provide the filepath of the disaster messages database '\
-              'as the first argument and the filepath of the pickle file to '\
-              'save the model to as the second argument. \n\nExample: python '\
-              'train_classifier_ktrain.py ../data/DisasterResponse.db classifier.pth')
+    print('Saving model...\n    Model: {}'.format(model_filepath))
+    save_model(learner, preproc, model_filepath)
+
+    print('Trained model saved! Preprocessing required for the model is saved at {}.preproc'.format(model_filepath))
 
 
 if __name__ == '__main__':
