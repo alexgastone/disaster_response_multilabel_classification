@@ -20,6 +20,8 @@ Following is a screenshot:
 
 ![image](data/plot_categories/co_mat.png)
 
+Acknowledgments: Mike Bostock's d3.js [implementation](https://bost.ocks.org/mike/miserables/) of *Les Miserables* character co-occurrence, and Déborah Mesquita's [Medium article](https://towardsdatascience.com/building-a-co-occurrence-matrix-with-d3-to-analyze-overlapping-topics-in-dissertations-fb2ae9470dee)
+
 ### 3 - Model:
 I've trained a few different models of increasing complexity so far (Naive Bayes & deep models such as Bidirectional GRU or a fastText-like model)
 
