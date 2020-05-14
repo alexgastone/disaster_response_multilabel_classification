@@ -1,6 +1,6 @@
 # Disaster Response Project
 
-### Context:
+### 1 - Context:
 In the face of a global pandemic and a majority of resources (including time) being rightly alotted to fighting it, I started thinking about working on a project that would be aimed at maximizing efficiency of strained responses to non-CovID related emergencies. There are thousands of messages that teams managing response efforts have to comb through in order to determine and assign the category of response required (ex. food, shelter..). 
 
 Figure Eight provides a dataset of labeled multilingual disaster messages from social, direct, and news sources. These labels correspond to the categories of disaster responses.
@@ -9,8 +9,19 @@ Figure Eight provides a dataset of labeled multilingual disaster messages from s
 
 > Multilabel text classification task with imbalanced classes 
 
-### Model:
-I've trained a few different models of increasing complexity so far (Naive Bayes, deep models such as Bidirectional GRU or a fastText-like model)
+### 2 - Visual inspection of (cleaned) data
+Used d3.js to build an interactive visualization of the co-occurrence matrix of category labels, grouped by:
+* aid-related messages
+* infrastructure-related messages
+* weather-related messages
+* message type
+
+Following is a screenshot:
+
+![image](data/plot_categories/co_mat.png)
+
+### 3 - Model:
+I've trained a few different models of increasing complexity so far (Naive Bayes & deep models such as Bidirectional GRU or a fastText-like model)
 
 * Best performance is by finetuning pretrained **BERT-base-uncased model** + Classifier (Dense output layer with sigmoid activation to predict probabilities) using the `ktrain` library
 	* Training accuracy: 0.9423, validation accuracy: 0.9457
@@ -18,7 +29,7 @@ I've trained a few different models of increasing complexity so far (Naive Bayes
 
 * Threshold moving for imbalanced classes: I've chosen to take the threshold that corresponds to the max geometric mean between the weighted ROC-AUC scores and the F1 scores for the validation set.
 
-### Deployment:
+### 4 - Deployment:
 Since the goal of this project is to use the capabilities of the model for real time inference of messages, I built a web app (using Flask) for users to enter queries and quickly extract the query's predicted classification labels.
 
 To run the app locally: `$python run.py`. Current configuration: host='0.0.0.0', port=4444.
