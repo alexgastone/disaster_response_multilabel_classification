@@ -20,7 +20,11 @@ To view (with local data file), run an HTTP server from folder that contains the
 
 Following is a screenshot:
 
-![image](data/plot_categories/co_mat.png)
+<img src="data/plot_categories/cor_mat.png" alt="co-occurrence" width="600"/>
+
+and with tooltip:
+
+<img src="data/plot_categories/cor_mat_tooltip.png" alt="co-occurrence with tooltip" width="600"/>
 
 Acknowledgments: Mike Bostock's d3.js [implementation](https://bost.ocks.org/mike/miserables/) of *Les Miserables* character co-occurrence, and Déborah Mesquita's [Medium article](https://towardsdatascience.com/building-a-co-occurrence-matrix-with-d3-to-analyze-overlapping-topics-in-dissertations-fb2ae9470dee)
 
