@@ -266,7 +266,7 @@
                 tooltip.transition().duration(200).style("opacity", .9);
                 tooltip.html(capitalize_Words(nodes[p.y].name) + " [" + intToGroup(nodes[p.y].group) + "]</br>" +
                         capitalize_Words(nodes[p.x].name) + " [" + intToGroup(nodes[p.x].group) + "]</br>" +
-                        p.z + ": strength of co-occurence (on 1-10 scale) ")
+                        p.z + ": strength of co-occurence")
                     .style("left", (d3.event.pageX + 30) + "px")
                     .style("top", (d3.event.pageY - 50) + "px");
 
