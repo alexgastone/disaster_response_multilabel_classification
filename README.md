@@ -16,6 +16,8 @@ Used d3.js to build an interactive visualization of the co-occurrence matrix of 
 * weather-related messages
 * message type
 
+To view (with local data file), run an HTTP server from folder that contains the `index.html` file with python 3: `$ python -m http.serv`
+
 Following is a screenshot:
 
 ![image](data/plot_categories/co_mat.png)
@@ -34,5 +36,5 @@ I've trained a few different models of increasing complexity so far (Naive Bayes
 ### 4 - Deployment:
 Since the goal of this project is to use the capabilities of the model for real time inference of messages, I built a web app (using Flask) for users to enter queries and quickly extract the query's predicted classification labels.
 
-To run the app locally: `$python run.py`. Current configuration: host='0.0.0.0', port=4444.
+To run the app locally on your machine: `$ python run.py`. Current configuration: host='0.0.0.0', port=4444.
 
