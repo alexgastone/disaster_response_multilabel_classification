@@ -16,7 +16,7 @@ Used d3.js to build an interactive visualization of the co-occurrence matrix of 
 * weather-related messages
 * message type
 
-To view (with local data file), run an HTTP server from folder that contains the `index.html` file with python 3: `$ python -m http.serv`
+To view (with local data file), run an HTTP server from folder that contains the `index.html` file with python 3: `$ python -m http.serv`. Or see [web app] (https://cooccurrence-disaster-messages.herokuapp.com) deployed with Heroku 
 
 Following is a screenshot:
 
